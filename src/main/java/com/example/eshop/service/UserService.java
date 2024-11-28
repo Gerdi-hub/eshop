@@ -10,7 +10,7 @@ import java.util.List;
 @Service
 @Transactional
 public class UserService {
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
     boolean validUser = false;
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -21,11 +21,15 @@ public class UserService {
         List<User> userList = userRepository.findAll();
 
         for (User user : userList) {
-            if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
+            String x = user.getUsername();
+            String y = user.getPassword();
+            if (x.equals(username) && y.equals(password)) {
                 validUser = true;
 
             }
         }
+
+        System.out.println(username + " " + password);
         return validUser;
     }
 
