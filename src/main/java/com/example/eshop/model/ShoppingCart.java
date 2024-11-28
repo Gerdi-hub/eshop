@@ -12,16 +12,17 @@ import lombok.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "products")
+@Table(name ="shopping_cart")
 @ToString
 
-public class Product {
+
+public class ShoppingCart {
 
     @Id
     @GeneratedValue
-    private Long id;
+    private long id;
     private String productName;
-    private String description;
-    private Double price;
+    private int quantity;
+    private double price;
 
 }
