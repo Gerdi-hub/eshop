@@ -1,24 +1,18 @@
 package com.example.eshop.config;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class CorsConfig {
+public class CorsConfig implements WebMvcConfigurer {
 
-    @Bean
-    public CorsFilter corsFilter() {
-        CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.addAllowedOrigin("http://localhost:8080"); // Allow frontend origin
-        corsConfiguration.addAllowedMethod("*"); // Allow all HTTP methods (GET, POST, etc.)
-        corsConfiguration.addAllowedHeader("*"); // Allow all headers
-        corsConfiguration.setAllowCredentials(true); // Allow cookies if needed
-
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", corsConfiguration); // Apply to all endpoints
-        return new CorsFilter(source);
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        // Allow CORS for frontend
+        registry.addMapping("/**")
+                .allowedOrigins("http://localhost:8080") // Allow requests from this origin
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Allowed methods
+                .allowedHeaders("*"); // Allow all headers
     }
 }
