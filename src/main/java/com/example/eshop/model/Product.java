@@ -1,10 +1,7 @@
 package com.example.eshop.model;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 @NoArgsConstructor              //klassi annotatsioonid
@@ -20,8 +17,14 @@ public class Product {
     @Id
     @GeneratedValue
     private Long id;
+
+    @Column(name = "productname")
     private String productName;
+
+    @Column(name = "description")
     private String description;
+
+    @Column(name = "price")
     private Double price;
 
 }

@@ -10,7 +10,7 @@ import java.util.List;
 @Service
 @Transactional
 public class UserService {
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
     boolean validUser = false;
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
