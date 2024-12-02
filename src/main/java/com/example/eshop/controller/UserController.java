@@ -1,5 +1,6 @@
 package com.example.eshop.controller;
 
+import com.example.eshop.model.User;
 import com.example.eshop.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,10 +14,11 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/validateUser/{username}/{password}")
-    public boolean validateUser(@PathVariable ("username") String username, @PathVariable ("password") String password) {
-        return  userService.validateUser(username, password);
+    @PostMapping("/validateUser")
+    public boolean validateUser(@RequestBody User user) {
+        return userService.validateUser(user.getUsername(), user.getPassword());
     }
+
 
 
 }

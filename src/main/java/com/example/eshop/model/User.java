@@ -3,7 +3,7 @@ package com.example.eshop.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-@NoArgsConstructor              //klassi annotatsioonid
+@NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter

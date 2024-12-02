@@ -3,6 +3,7 @@ package com.example.eshop.service;
 import com.example.eshop.model.User;
 import com.example.eshop.repository.UserRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.http.server.DelegatingServerHttpResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,10 +27,15 @@ public class UserService {
             if (x.equals(username) && y.equals(password)) {
                 validUser = true;
 
+            }else {
+                System.out.println(username + " " + password);
+                System.out.println("Wrong password");
+                validUser = false;
             }
         }
 
         System.out.println(username + " " + password);
+        System.out.println("Correct password");
         return validUser;
     }
 
