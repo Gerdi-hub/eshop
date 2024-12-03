@@ -12,7 +12,7 @@ public class UserDto {
     private String firstName;
     private String lastName;
     private String email;
-    private int userRightsId;
+    private Long userRightsId;
 
     public UserDto(User user) {
         this.id = user.getId();
