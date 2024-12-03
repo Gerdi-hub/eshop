@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "*")
 public class CartController {
 
-    @Autowired
     private final ShoppingCartService shoppingCartService;
 
 
