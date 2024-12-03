@@ -22,10 +22,11 @@ public class UserController {
 //        return userService.validateUser(user.getUsername(), user.getPassword());
 //    }
 
-    @GetMapping("/username")
+@GetMapping("/username")
     public String getUserName(@RequestBody User user) {
-        return userService.getUserName(user.getUsername());
-    }
+
+    return userService.getUserName(user.getUsername());
+}
 
     @GetMapping("/useremail")
     public String getUserEmail(@RequestBody User user) {

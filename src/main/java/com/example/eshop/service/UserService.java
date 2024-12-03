@@ -6,41 +6,46 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
 public class UserService {
+
     private final UserRepository userRepository;
-    boolean validUser = false;
+
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
+    public boolean validateUser(User user, String password) {
+        return user.getPassword().equals(password); // Validate password
+    }
 
-    public boolean validateUser(String username, String password) {
-        List<User> userList = userRepository.findAll();
+    public Optional<User> getValidUser (String username, String password) {
+        Optional<User> user = userRepository.findByUsername(username);
 
-        for (User user : userList) {
-            if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
-                validUser = true;
-
-            }
+        if (user.isPresent() && validateUser(user.get(), password)) {
+            return user;
+        } else {
+            return Optional.empty();
         }
-        return validUser;
     }
 
-    public User addNewUser(User user) {
-        return userRepository.save(user);
+    public String getUserName(String username) {
+        Optional<User> user = userRepository.findByUsername(username);
+        String name = user.get().getFirstName() + " " + user.get().getLastName();
+        return name;
     }
 
-    public void deleteUser(User user) {
-        userRepository.delete(user);
-        validUser = false;
-
+    public String getUserEmail(String username) {
+        Optional<User> user = userRepository.findByUsername(username);
+        String email = user.get().getEmail();
+        return email;
     }
 
-    public User updateUser(User user) {
-        return userRepository.save(user);
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
     }
 
 
