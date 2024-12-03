@@ -18,10 +18,18 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public boolean validateUser(String username, String password) {
-        // Look for the user with the given username
+    public boolean validateUser(User user, String password) {
+        return user.getPassword().equals(password); // Validate password
+    }
+
+    public Optional<User> getValidUser (String username, String password) {
         Optional<User> user = userRepository.findByUsername(username);
-        return user.isPresent() && user.get().getPassword().equals(password); // Validate password
+
+        if (user.isPresent() && validateUser(user.get(), password)) {
+            return user;
+        } else {
+            return Optional.empty();
+        }
     }
 
     public String getUserName(String username) {

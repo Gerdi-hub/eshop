@@ -16,11 +16,11 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
-
-    @PostMapping("/validateUser")
-    public boolean validateUser(@RequestBody User user) {
-        return userService.validateUser(user.getUsername(), user.getPassword());
-    }
+//
+//    @PostMapping("/validateUser")
+//    public boolean validateUser(@RequestBody User user) {
+//        return userService.validateUser(user.getUsername(), user.getPassword());
+//    }
 
 @GetMapping("/username")
     public String getUserName(@RequestBody User user) {
