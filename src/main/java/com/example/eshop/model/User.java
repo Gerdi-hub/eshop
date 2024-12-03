@@ -3,7 +3,7 @@ package com.example.eshop.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-@NoArgsConstructor
+@NoArgsConstructor              //klassi annotatsioonid
 @AllArgsConstructor
 @Getter
 @Setter
@@ -22,5 +22,5 @@ public class User {
     private String firstName;
     private String lastName;
     private String email;
-    private int userRightsId;
+    private Long userRightsId;
 }
