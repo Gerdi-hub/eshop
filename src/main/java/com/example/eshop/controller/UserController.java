@@ -1,5 +1,6 @@
 package com.example.eshop.controller;
 
+import com.example.eshop.dto.UserDto;
 import com.example.eshop.model.User;
 import com.example.eshop.service.UserService;
 import org.springframework.web.bind.annotation.*;
@@ -16,22 +17,27 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
-//
+
+
 //    @PostMapping("/validateUser")
 //    public boolean validateUser(@RequestBody User user) {
 //        return userService.validateUser(user.getUsername(), user.getPassword());
 //    }
 
-@GetMapping("/username")
-    public String getUserName(@RequestBody User user) {
-
-    return userService.getUserName(user.getUsername());
-}
-
-    @GetMapping("/useremail")
-    public String getUserEmail(@RequestBody User user) {
-
-        return userService.getUserEmail(user.getUsername());
+//@GetMapping("/username")
+//    public String getUserName(@RequestBody User user) {
+//
+//    return userService.getUserName(user.getUsername());
+//}
+//
+//    @GetMapping("/useremail")
+//    public String getUserEmail(@RequestBody User user) {
+//
+//        return userService.getUserEmail(user.getUsername());
+//    }
+    @GetMapping("/allusers")
+    public List<UserDto> getAllUsers() {
+        return userService.getAllUsers();
     }
-
+//
 }

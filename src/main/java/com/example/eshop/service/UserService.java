@@ -1,10 +1,12 @@
 package com.example.eshop.service;
 
+import com.example.eshop.dto.UserDto;
 import com.example.eshop.model.User;
 import com.example.eshop.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,20 +34,26 @@ public class UserService {
         }
     }
 
-    public String getUserName(String username) {
-        Optional<User> user = userRepository.findByUsername(username);
-        String name = user.get().getFirstName() + " " + user.get().getLastName();
-        return name;
-    }
+//    public String getUserName(String username) {
+//        Optional<User> user = userRepository.findByUsername(username);
+//        String name = user.get().getFirstName() + " " + user.get().getLastName();
+//        String name = user.get().getUsername();
+//        return name;
+//    }
+//
+//    public String getUserEmail(String username) {
+//        Optional<User> user = userRepository.findByUsername(username);
+//        String email = user.get().getEmail();
+//        return email;
+//    }
 
-    public String getUserEmail(String username) {
-        Optional<User> user = userRepository.findByUsername(username);
-        String email = user.get().getEmail();
-        return email;
-    }
-
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public List<UserDto> getAllUsers() {
+        List<User> AllUsers = userRepository.findAll();
+        List<UserDto> userDtos = new ArrayList<>();
+        for (User user : AllUsers) {
+            userDtos.add(new UserDto(user));
+        }
+        return userDtos;
     }
 
 
