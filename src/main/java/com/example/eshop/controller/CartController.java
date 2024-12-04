@@ -25,31 +25,24 @@ public class CartController {
     public ShoppingCart addProductToShoppingCart(@RequestBody ShoppingCart shoppingCart) {
         return shoppingCartService.addProductToShoppingCart(shoppingCart);
     }
+
     @GetMapping("/shoppingcart")
-    public List<ShoppingCart> getAllCartItems(){
+    public List<ShoppingCart> getAllCartItems() {
         return shoppingCartService.getAllCartItems();
     }
 
-/*    @DeleteMapping("/remove-from-cart")
-    public ResponseEntity<String> removeProductFromShoppingCart(
-            @RequestParam String productName,
-            @RequestParam int quantity) {
-        try {
-            shoppingCartService.removeProductFromShoppingCart(productName, quantity);
-            return ResponseEntity.ok("Product removed from the cart successfully.");
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
-    }*/
-
     @GetMapping("/calculate-cart-total")
-    public double calculateCartTotal(){
+    public double calculateCartTotal() {
         return shoppingCartService.calculateCartTotal();
     }
 
     @GetMapping("/cart-items-count")
-    public Integer countCartItems(){
+    public Integer countCartItems() {
         return shoppingCartService.countCartItems();
+    }
+    @DeleteMapping("/remove-product/{productname}")
+        public void removeProductFromShoppingCart(@PathVariable String productname){
+        shoppingCartService.removeProductFromShoppingCart(productname);
     }
 
 

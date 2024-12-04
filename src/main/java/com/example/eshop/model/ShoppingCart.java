@@ -1,10 +1,7 @@
 package com.example.eshop.model;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 @NoArgsConstructor              //klassi annotatsioonid
@@ -21,6 +18,8 @@ public class ShoppingCart {
     @Id
     @GeneratedValue
     private long id;
+
+    @Column(name = "product_name")
     private String productName;
     private int quantity;
     private double price;

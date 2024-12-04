@@ -3,68 +3,74 @@ package com.example.eshop.service;
 import com.example.eshop.model.ShoppingCart;
 import com.example.eshop.repository.ShoppingCartRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.List;
 import java.util.Optional;
+
 
 @Service
 public class ShoppingCartService {
 
     private final ShoppingCartRepository shoppingCartRepository;
 
+
     public ShoppingCartService(ShoppingCartRepository shoppingCartRepository) {
         this.shoppingCartRepository = shoppingCartRepository;
     }
 
     public ShoppingCart addProductToShoppingCart(ShoppingCart shoppingCart) {
-        return shoppingCartRepository.save(shoppingCart);
-    }
+        // Check if the product already exists in the cart
+        Optional<ShoppingCart> existingCartItem = shoppingCartRepository.findByProductName(shoppingCart.getProductName());
 
-    public List<ShoppingCart> getAllCartItems(){
+        if (existingCartItem.isPresent()) {
+            // Product already exists, increment the quantity
+            ShoppingCart existingItem = existingCartItem.get();
+            existingItem.setQuantity(existingItem.getQuantity() + 1);
+            return shoppingCartRepository.save(existingItem);
+        } else {
+            // Product does not exist, add new product to the cart
+            return shoppingCartRepository.save(shoppingCart);
+        }
+    }
+    public List<ShoppingCart> getAllCartItems() {
         return shoppingCartRepository.findAll();
     }
 
-  /*  @Transactional
-    public void removeProductFromShoppingCart(String productName, int quantityToRemove) {
-        // Find the product in the shopping cart by productName
-        Optional<ShoppingCart> cartItemOptional = shoppingCartRepository.findAll().stream()
-                .filter(item -> item.getProductName().equalsIgnoreCase(productName))
-                .findFirst();
 
-        if (cartItemOptional.isPresent()) {
-            ShoppingCart cartItem = cartItemOptional.get();
+    public void removeProductFromShoppingCart(String productName) {
+        Optional<ShoppingCart> existingCartItem = shoppingCartRepository.findByProductName(productName);
 
-            // Reduce the quantity or remove the item if quantity becomes zero
-            if (cartItem.getQuantity() > quantityToRemove) {
-                cartItem.setQuantity(cartItem.getQuantity() - quantityToRemove);
-                shoppingCartRepository.save(cartItem);
+        if (existingCartItem.isPresent()) {
+            ShoppingCart existingItem = existingCartItem.get();
+
+            if (existingItem.getQuantity() > 1) {
+                // Decrement the quantity by 1
+                existingItem.setQuantity(existingItem.getQuantity() - 1);
+                shoppingCartRepository.save(existingItem);
             } else {
-                shoppingCartRepository.delete(cartItem);
+                // Quantity is 1, remove the product from the cart
+                shoppingCartRepository.delete(existingItem);
             }
-        } else {
-            throw new IllegalArgumentException("Product with name " + productName + " not found in the shopping cart.");
         }
-    }*/
+    }
 
-    public Double calculateCartTotal(){
-        List<ShoppingCart> cartItems=getAllCartItems();
-        Double total=0.0;
-        for(ShoppingCart cartItem:cartItems){
-            total+=cartItem.getPrice()*cartItem.getQuantity();
+    public Double calculateCartTotal() {
+        List<ShoppingCart> cartItems = getAllCartItems();
+        Double total = 0.0;
+        for (ShoppingCart cartItem : cartItems) {
+            total += cartItem.getPrice() * cartItem.getQuantity();
 
         }
-        System.out.println(total);
         return total;
     }
-    public Integer countCartItems(){
-        int itemsCount= 0;
-        for(ShoppingCart cartItem:getAllCartItems()){
-            itemsCount+=cartItem.getQuantity();
+
+    public Integer countCartItems() {
+        int itemsCount = 0;
+        for (ShoppingCart cartItem : getAllCartItems()) {
+            itemsCount += cartItem.getQuantity();
         }
         return itemsCount;
     }
-
-
 
 }
