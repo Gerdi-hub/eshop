@@ -56,6 +56,9 @@ public class UserService {
         return userDtos;
     }
 
+    public User addNewUser(User user) {
+        return userRepository.save(user);
+    }
 
 
 }

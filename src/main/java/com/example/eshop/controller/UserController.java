@@ -18,27 +18,15 @@ public class UserController {
         this.userService = userService;
     }
 
-
-//    @PostMapping("/validateUser")
-//    public boolean validateUser(@RequestBody User user) {
-//        return userService.validateUser(user.getUsername(), user.getPassword());
-//    }
-
-//@GetMapping("/username")
-//    public String getUserName(@RequestBody User user) {
-//
-//    return userService.getUserName(user.getUsername());
-//}
-//
-//    @GetMapping("/useremail")
-//    public String getUserEmail(@RequestBody User user) {
-//
-//        return userService.getUserEmail(user.getUsername());
-//    }
     @GetMapping("/allusers")
     public List<UserDto> getAllUsers() {
         return userService.getAllUsers();
     }
+
+@PostMapping ("/addnewuser")
+    public User addNewUser(@RequestBody User user) {
+        return userService.addNewUser(user);
+}
 
 }
 
