@@ -18,8 +18,9 @@ public class SettledOrder {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     /*private long id;*/
     private Long orderNumber;
-    private String username;
-
+    /*private String username;*/
+    @Column(name="new_order_number")
+    private Long newOrderNumber;
     private Date orderDate;
     private String productName;
     private int quantity;

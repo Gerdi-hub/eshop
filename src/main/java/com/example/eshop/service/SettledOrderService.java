@@ -1,0 +1,86 @@
+package com.example.eshop.service;
+
+
+import com.example.eshop.model.SettledOrder;
+import com.example.eshop.model.ShoppingCart;
+import com.example.eshop.repository.OrdersRepository;
+import com.example.eshop.repository.ShoppingCartRepository;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+
+@Getter
+@Setter
+@Service
+public class SettledOrderService {
+
+    private final ShoppingCartRepository shoppingCartRepository;
+    private final OrdersRepository ordersRepository;
+
+    public SettledOrderService(ShoppingCartRepository shoppingCartRepository, OrdersRepository ordersRepository) {
+        this.shoppingCartRepository = shoppingCartRepository;
+        this.ordersRepository = ordersRepository;
+    }
+
+
+    public List<SettledOrder> getSettledOrders() {
+        return ordersRepository.findAll();
+    }
+
+    @Transactional
+    public void addOrdersFromCartToSettledOrdersTable() {
+        // Step 1: Fetch all items from the shopping cart
+        List<ShoppingCart> cartItems = shoppingCartRepository.findAll();
+        if (cartItems.isEmpty()) {
+            throw new IllegalStateException("Shopping cart is empty!");
+        }
+
+        // Step 2: Find the highest existing order number and determine the next new order number
+        Long highestOrderNumber = ordersRepository.findMaxOrderNumber();
+        Long newOrderNumber = (highestOrderNumber == null) ? 1L : (highestOrderNumber + 1);  // Next order number for the shopping cart
+
+        // Step 3: Get current date and time for order date
+        Date currentDate = new Date();
+
+        // Step 4: Create a list to hold settled orders for the current cart
+        List<SettledOrder> settledOrders = new ArrayList<>();
+
+        for (ShoppingCart cartItem : cartItems) {
+            SettledOrder settledOrder = new SettledOrder();
+            settledOrder.setNewOrderNumber(newOrderNumber);  // Set the same newOrderNumber for all cart items
+            settledOrder.setOrderDate(currentDate);  // Set the order date
+            settledOrder.setProductName(cartItem.getProductName());  // Set the product name
+            settledOrder.setQuantity(cartItem.getQuantity());  // Set the quantity
+            settledOrder.setPrice(cartItem.getPrice());  // Set the price
+
+            settledOrders.add(settledOrder);  // Add the order to the list
+        }
+
+        // Step 5: Save all settled orders to the database
+        ordersRepository.saveAll(settledOrders);
+    }
+
+    @Transactional
+    public List<SettledOrder> getLastSettledOrders() {
+        // Step 1: Find the highest newOrderNumber
+        Long highestOrderNumber = ordersRepository.findMaxOrderNumber2();
+        if (highestOrderNumber == null) {
+            throw new IllegalStateException("No orders found!");
+        }
+        // Step 2: Fetch all orders with the highest newOrderNumber
+        return ordersRepository.findByNewOrderNumber(highestOrderNumber);
+    }
+
+        public void deleteFromCart() {
+            // Step 6: Clear the shopping cart
+            shoppingCartRepository.deleteAll();
+        }
+    }
+
+
