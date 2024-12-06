@@ -39,6 +39,7 @@ public class AdminService {
                 product.setProductName(updatedProduct.getProductName());
                 product.setPrice(updatedProduct.getPrice());
                 product.setDescription(updatedProduct.getDescription());
+                product.setImage(updatedProduct.getImage());
                 productRepository.save(product);
             }
         }
