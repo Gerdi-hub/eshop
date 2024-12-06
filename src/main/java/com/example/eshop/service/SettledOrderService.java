@@ -34,7 +34,7 @@ public class SettledOrderService {
     }
 
     @Transactional
-    public void addOrdersFromCartToSettledOrdersTable() {
+    public void addOrdersFromCartToSettledOrdersTable(String username) {
         // Step 1: Fetch all items from the shopping cart
         List<ShoppingCart> cartItems = shoppingCartRepository.findAll();
         if (cartItems.isEmpty()) {
@@ -57,7 +57,8 @@ public class SettledOrderService {
             settledOrder.setOrderDate(currentDate);  // Set the order date
             settledOrder.setProductName(cartItem.getProductName());  // Set the product name
             settledOrder.setQuantity(cartItem.getQuantity());  // Set the quantity
-            settledOrder.setPrice(cartItem.getPrice());  // Set the price
+            settledOrder.setPrice(cartItem.getPrice());// Set the price
+            settledOrder.setUsername(username);
 
             settledOrders.add(settledOrder);  // Add the order to the list
         }

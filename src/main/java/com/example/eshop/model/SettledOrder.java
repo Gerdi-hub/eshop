@@ -26,4 +26,6 @@ public class SettledOrder {
     private int quantity;
     private double price;
     private boolean newOrder;
+    @Column(name = "username")
+    private String username;
 }

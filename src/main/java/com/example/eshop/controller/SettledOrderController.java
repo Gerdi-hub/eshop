@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/settled-orders")
@@ -26,9 +27,10 @@ public class SettledOrderController {
     //Kõik orderid admin vaatesse
 
     @PostMapping("/add-from-cart")
-    public ResponseEntity<String> addOrdersFromCart() {
+    public ResponseEntity<String> addOrdersFromCart(@RequestBody Map<String, String> payload) {
+        String username = payload.get("username");
         try {
-            settledOrderService.addOrdersFromCartToSettledOrdersTable();
+            settledOrderService.addOrdersFromCartToSettledOrdersTable(username);
             return ResponseEntity.ok("Orders added successfully!");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
