@@ -23,11 +23,16 @@ public class UserController {
         return userService.getAllUsers();
     }
 
-@PostMapping ("/addnewuser")
+    @PostMapping("/addnewuser")
     public User addNewUser(@RequestBody User user) {
         return userService.addNewUser(user);
-}
+    }
+    @GetMapping("/oneuser")
+    public UserDto oneUser(@RequestBody User user)
+  { return userService.getOneUser(user);
+  }
 
 }
+
 
 

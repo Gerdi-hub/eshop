@@ -60,5 +60,16 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    public UserDto getOneUser(User user) {
+        List<UserDto> AllUsers = getAllUsers();
+        UserDto oneUser = null;
+        for (UserDto userDto : AllUsers) {
+            if (userDto.getUsername().equals(user.getUsername())) {
+                oneUser = userDto;
+            }
+        }
+      return oneUser;
+    }
+
 
 }
