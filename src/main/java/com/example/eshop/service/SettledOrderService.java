@@ -1,10 +1,13 @@
 package com.example.eshop.service;
 
 
+import com.example.eshop.dto.SettledOrderDto;
 import com.example.eshop.model.SettledOrder;
 import com.example.eshop.model.ShoppingCart;
+import com.example.eshop.model.User;
 import com.example.eshop.repository.OrdersRepository;
 import com.example.eshop.repository.ShoppingCartRepository;
+import com.example.eshop.repository.UserRepository;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Service;
@@ -13,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 
 @Getter
@@ -22,15 +26,28 @@ public class SettledOrderService {
 
     private final ShoppingCartRepository shoppingCartRepository;
     private final OrdersRepository ordersRepository;
+    private final UserRepository userRepository;
 
-    public SettledOrderService(ShoppingCartRepository shoppingCartRepository, OrdersRepository ordersRepository) {
+    public SettledOrderService(ShoppingCartRepository shoppingCartRepository, OrdersRepository ordersRepository, UserRepository userRepository) {
         this.shoppingCartRepository = shoppingCartRepository;
         this.ordersRepository = ordersRepository;
+        this.userRepository = userRepository;
     }
 
 
-    public List<SettledOrder> getSettledOrders() {
-        return ordersRepository.findAll();
+    public List<SettledOrderDto> getSettledOrderDtos() {
+        List<SettledOrderDto> settledOrderDtos = new ArrayList<>();
+
+        List<SettledOrder> settledOrders = ordersRepository.findAll();
+        for (SettledOrder settledOrder : settledOrders) {
+            Optional<User> user = userRepository.findByUsername(settledOrder.getUsername());
+            if (user.isPresent()) {
+                settledOrderDtos.add(new SettledOrderDto(settledOrder, user.get()));
+            } else {
+                settledOrderDtos.add(new SettledOrderDto(settledOrder, null));
+            }
+        }
+        return settledOrderDtos;
     }
 
     @Transactional

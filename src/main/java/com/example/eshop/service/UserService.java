@@ -60,15 +60,16 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public UserDto getOneUser(User user) {
-        List<UserDto> AllUsers = getAllUsers();
-        UserDto oneUser = null;
-        for (UserDto userDto : AllUsers) {
-            if (userDto.getUsername().equals(user.getUsername())) {
-                oneUser = userDto;
-            }
-        }
-      return oneUser;
+    public UserDto getOneUser(String username) {
+//        List<UserDto> AllUsers = getAllUsers();
+//        UserDto oneUser = null;
+//        for (UserDto userDto : AllUsers) {
+//            if (userDto.getUsername().equals(username)) {
+//                oneUser = userDto;
+//            }
+//        }
+    Optional<User> user = userRepository.findByUsername(username);
+      return user.isPresent() ? new UserDto(user.get()) : null;
     }
 
 

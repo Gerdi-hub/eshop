@@ -27,9 +27,10 @@ public class UserController {
     public User addNewUser(@RequestBody User user) {
         return userService.addNewUser(user);
     }
+
     @GetMapping("/oneuser")
-    public UserDto oneUser(@RequestBody User user)
-  { return userService.getOneUser(user);
+    public UserDto oneUser(@RequestParam String username) {
+      return userService.getOneUser(username);
   }
 
 }

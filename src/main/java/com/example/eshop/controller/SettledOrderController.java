@@ -1,5 +1,6 @@
 package com.example.eshop.controller;
 
+import com.example.eshop.dto.SettledOrderDto;
 import com.example.eshop.model.SettledOrder;
 import com.example.eshop.service.SettledOrderService;
 import org.springframework.http.HttpStatus;
@@ -21,8 +22,8 @@ public class SettledOrderController {
 
 
     @GetMapping("/all-settled-orders")
-    public List<SettledOrder> getSettledOrders() {
-        return settledOrderService.getSettledOrders();
+    public List<SettledOrderDto> getSettledOrders() {
+        return settledOrderService.getSettledOrderDtos();
     }
     //Kõik orderid admin vaatesse
 
