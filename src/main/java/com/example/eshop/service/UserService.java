@@ -4,7 +4,9 @@ import com.example.eshop.dto.UserDto;
 import com.example.eshop.model.User;
 import com.example.eshop.repository.UserRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,18 +36,6 @@ public class UserService {
         }
     }
 
-//    public String getUserName(String username) {
-//        Optional<User> user = userRepository.findByUsername(username);
-//        String name = user.get().getFirstName() + " " + user.get().getLastName();
-//        String name = user.get().getUsername();
-//        return name;
-//    }
-//
-//    public String getUserEmail(String username) {
-//        Optional<User> user = userRepository.findByUsername(username);
-//        String email = user.get().getEmail();
-//        return email;
-//    }
 
     public List<UserDto> getAllUsers() {
         List<User> AllUsers = userRepository.findAll();
@@ -60,17 +50,38 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public UserDto getOneUser(String username) {
-//        List<UserDto> AllUsers = getAllUsers();
-//        UserDto oneUser = null;
-//        for (UserDto userDto : AllUsers) {
-//            if (userDto.getUsername().equals(username)) {
-//                oneUser = userDto;
-//            }
-//        }
-    Optional<User> user = userRepository.findByUsername(username);
-      return user.isPresent() ? new UserDto(user.get()) : null;
+//    public UserDto getOneUser(String username) {
+//
+//    Optional<User> user = userRepository.findByUsername(username);
+//      return user.isPresent() ? new UserDto(user.get()) : null;
+//    }
+
+    public void updateUser(String username, User updatedUser) {
+        // Retrieve the existing user by username
+        Optional<User> optionalUser = userRepository.findByUsername(username);
+
+        // Check if the user exists
+        User existingUser = optionalUser
+                .orElseThrow(() ->
+                new UserNotFoundException("User with username " + username + " not found")
+        );
+
+        // Update fields of the existing user with values from the updated user object
+        existingUser.setFirstName(updatedUser.getFirstName());
+        existingUser.setLastName(updatedUser.getLastName());
+        existingUser.setEmail(updatedUser.getEmail());
+
+
+        // Save the updated user back to the repository
+        userRepository.save(existingUser);
     }
 
-
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public static class UserNotFoundException extends RuntimeException {
+        public UserNotFoundException(String message) {
+            super(message);
+        }
+    }
 }
+
+

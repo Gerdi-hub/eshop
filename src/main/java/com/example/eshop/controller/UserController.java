@@ -28,11 +28,15 @@ public class UserController {
         return userService.addNewUser(user);
     }
 
-    @GetMapping("/oneuser")
-    public UserDto oneUser(@RequestParam String username) {
-      return userService.getOneUser(username);
-  }
+//    @GetMapping("/oneuser")
+//    public UserDto oneUser(@RequestParam String username) {
+//        return userService.getOneUser(username);
+//    }
 
+    @PutMapping("/changeuser/{username}")
+    public void updateUser(@PathVariable("username") String username, @RequestBody User updatedUser) {
+        userService.updateUser(username, updatedUser);
+    }
 }
 
 
