@@ -37,6 +37,12 @@ public class UserController {
     public void updateUser(@PathVariable("username") String username, @RequestBody User updatedUser) {
         userService.updateUser(username, updatedUser);
     }
+
+    @PostMapping("/addnewuserid")
+    public User addNewUserWithId(@RequestBody User user) {
+        return userService.addNewUser(user);
+    }
+
 }
 
 

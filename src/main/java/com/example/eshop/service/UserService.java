@@ -82,6 +82,10 @@ public class UserService {
             super(message);
         }
     }
+
+    public User addNewUserWithId(User user) {
+        return userRepository.save(user);
+    }
 }
 
 
