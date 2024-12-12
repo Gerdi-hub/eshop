@@ -16,16 +16,13 @@ public class AdminService {
 
     public AdminService(ProductRepository productRepository) {
         this.productRepository = productRepository;
-
     }
 
     public Product addProduct(Product product) {
         return productRepository.save(product);
-
     }
 
     public List<Product> getAllProducts() {
-
         return productRepository.findAll();
     }
 

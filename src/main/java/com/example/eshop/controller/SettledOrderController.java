@@ -39,7 +39,6 @@ public class SettledOrderController {
     }
     //Lisab tooted shopping cartist settled orders tabelisse. tekitab uue newOrderNumber muutuja, mille järgi saab adnmed tellimusele.
 
-
     @GetMapping("/last-settled-order")
     public List<SettledOrder> getLastSettledOrders() {
         return settledOrderService.getLastSettledOrders();

@@ -50,11 +50,6 @@ public class UserService {
         return userRepository.save(user);
     }
 
-//    public UserDto getOneUser(String username) {
-//
-//    Optional<User> user = userRepository.findByUsername(username);
-//      return user.isPresent() ? new UserDto(user.get()) : null;
-//    }
 
     public void updateUser(String username, User updatedUser) {
         // Retrieve the existing user by username
@@ -83,9 +78,6 @@ public class UserService {
         }
     }
 
-    public User addNewUserWithId(User user) {
-        return userRepository.save(user);
-    }
 }
 
 

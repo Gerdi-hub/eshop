@@ -5,7 +5,6 @@ import com.example.eshop.model.User;
 import com.example.eshop.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -27,11 +26,6 @@ public class UserController {
     public User addNewUser(@RequestBody User user) {
         return userService.addNewUser(user);
     }
-
-//    @GetMapping("/oneuser")
-//    public UserDto oneUser(@RequestParam String username) {
-//        return userService.getOneUser(username);
-//    }
 
     @PutMapping("/changeuser/{username}")
     public void updateUser(@PathVariable("username") String username, @RequestBody User updatedUser) {
