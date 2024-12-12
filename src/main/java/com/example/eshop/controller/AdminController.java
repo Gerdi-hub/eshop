@@ -37,5 +37,11 @@ public class AdminController {
     public void updateProductDetails(@PathVariable ("productName") String productName, @RequestBody Product product) {
         adminService.updateByProductName(productName, product);
     }
+
+    @DeleteMapping("/delete/{productName}")
+    public void deleteProduct(@PathVariable String productName) {
+        adminService.deleteWithTimestamp(productName);
+    }
+
 }
 

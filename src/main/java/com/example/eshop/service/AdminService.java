@@ -5,6 +5,7 @@ import com.example.eshop.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -23,14 +24,14 @@ public class AdminService {
     }
 
     public List<Product> getAllProducts() {
-        return productRepository.findAll();
+        return productRepository.findAllActiveProducts();
     }
 
     public void deleteByProductName(String productName) {
         productRepository.deleteByProductName(productName);
     }
 
-    public void updateByProductName (String productName, Product updatedProduct) {
+    public void updateByProductName(String productName, Product updatedProduct) {
         for (Product product : getAllProducts()) {
             if (product.getProductName().equals(productName)) {
                 product.setProductName(updatedProduct.getProductName());
@@ -40,5 +41,12 @@ public class AdminService {
                 productRepository.save(product);
             }
         }
-        }
     }
+
+    @Transactional
+    public void deleteWithTimestamp(String productName) {
+        LocalDateTime now = LocalDateTime.now();
+        productRepository.markAsDeleted(productName, now);
+    }
+
+}

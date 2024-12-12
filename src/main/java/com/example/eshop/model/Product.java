@@ -3,6 +3,7 @@ package com.example.eshop.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor              //klassi annotatsioonid
 @AllArgsConstructor
@@ -29,5 +30,8 @@ public class Product {
 
     @Column(name = "image")
     private String image;
+
+    @Column(name= "deleted")
+    private LocalDateTime deletedAt;
 
 }
